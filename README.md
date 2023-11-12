@@ -1,5 +1,8 @@
 # Proyecto de Practica: Gestión administrativo para una boutique
 
+Con esta aplicación podemos gestionar la ventas, realizar reportes, controlar el ingreso y salida de productos, y marcar asistencia de empleados.
+
+
 **Indice**
 
 * [Entorno de desarrollo](#entorno-de-desarrollo)
@@ -41,66 +44,66 @@
 
 # Dependencias
 
-```
-	<dependencies>
-	
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-		</dependency>	
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>	
+```xml
+<dependencies>
 
-	    <dependency>
-	       <groupId>mysql</groupId>
-	       <artifactId>mysql-connector-java</artifactId>
-	       <version>8.0.29</version>
-	    </dependency>
-    		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.thymeleaf.extras</groupId>
+		<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+	</dependency>	
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+		<scope>runtime</scope>
+		<optional>true</optional>
+	</dependency>	
+
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>8.0.29</version>
+	</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		        
-        <dependency>
-		  <groupId>com.github.librepdf</groupId>
-		  <artifactId>openpdf</artifactId>
-		  <version>1.3.29</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
-		
-	</dependencies>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-tomcat</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+			
+	<dependency>
+		<groupId>com.github.librepdf</groupId>
+		<artifactId>openpdf</artifactId>
+		<version>1.3.29</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	
+	
+</dependencies>
 ```
 
 
@@ -151,6 +154,9 @@ Debemos ingresar a http://localhost:8080/admin/config e ingresar la contraseña 
 - Versión 1
 
 # Consideración
+
+Proyecto realizado con fines educativos.
+
 > Nombres, apellidos, números de contacto, números de documento, empresas, marcas correos, que figuran en la base de datos, son datos referenciales ficticios.
 > Las imagenes de vestidos fueron extraídos de Unsplash https://unsplash.com/
 > El nombre VanyLuck es ficticio.
