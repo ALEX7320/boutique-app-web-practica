@@ -1,0 +1,192 @@
+/* HIDDER */
+
+.ocultar_tag{
+/*
+   display: none;
+  */ 
+}
+
+
+
+
+/* GENRRAL*/
+
+.color_back_white {
+  background-color: white;
+}
+
+.color_back_white_m {
+  background-color: rgba(255, 255, 255, 0.0);
+}
+
+/* COLORE SLOGIN */
+.color_in_log {
+  background-color: rgb(65, 65, 65) !important;
+  color: white !important;
+  border: 1px solid black !important;
+}
+
+.color_in_log2 {
+  background-color: #080404 !important;
+  color: white !important;
+  border: 1px solid black !important;
+}
+
+/* PATALLA INICIO ------------------------------------------ */
+
+/* ajuste imagen barra lateral */
+.imagen_lateral_home {
+  object-fit: cover;
+  height: 100% !important;
+}
+
+/* imagenes centrales */
+.imagen_home {
+  height: 230px !important;
+  object-position: 100% 0px;
+  object-fit: cover;
+}
+
+/* principal  */
+
+.texto_banner_home {
+  color: #ef0c94 !important;
+  font-size: 4.5rem !important;
+  font-family: "Algerian";
+  font-weight: lighter !important;
+}
+
+/* banner color negro - indagado*/
+
+.bg-image-full_mod {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+#banner_image_mod:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#banner_text_mod {
+  position: relative;
+}
+
+/* PANTALLA CATEGORIAS --------------------------------- */
+
+/* ajuste imagens de categorias */
+.imagen_tag_incio {
+  height: 380px !important;
+  object-position: 100% 0px;
+  object-fit: cover;
+}
+
+/* boton ← */
+.text_atras_tag {
+  color: #ef0c94;
+  text-decoration: none;
+}
+.text_atras_tag:hover {
+  color: gray;
+}
+
+/* PANTALLA CATEGORIAS SEPARADAS  ---------------------------------  */
+
+/* ajuste imagens de productos de una categorias */
+.imagen_tag_sep {
+  height: 250px !important;
+  object-position: 100% 0px;
+  object-fit: cover;
+}
+
+/* CONTACTO --------------------------------- */
+
+/* modificacion de texto */
+.texto_terminos {
+  font-size: 12px !important;
+}
+
+/* MODIFICACION GENERAL PARA LA PAGINA -------------------------------- */
+
+/* texto blanco */
+.texto_blanco {
+  color: white !important;
+}
+
+/* color pagina rosado  */
+.color_fondo {
+  background-color: #f8ccee;
+
+  background: rgb(101, 30, 108);
+  background: radial-gradient(
+    circle,
+    rgba(101, 30, 108, 1) 26%,
+    rgba(28, 28, 28, 1) 100%
+  );
+}
+
+/* asignar font 1 */
+.texto_font_1 {
+  font-family: "Bookman Old Style";
+}
+
+/* PIED DE PAGINA ---------------------------------------------- */
+
+/* letras footer */
+.letra_rs_foot {
+  color: #ef0c94 !important;
+  font-size: 1rem;
+  font-family: "Bookman Old Style";
+}
+
+/* BARRA DE NAVEGACION ---------------------------------------------- */
+
+/* cambiar tamaño logo */
+.logo_home {
+  height: 50px;
+}
+
+/* color barra */
+.color_barras {
+  background-color: #080404 !important;
+}
+
+/* letras menu - solid */
+.letra_rs_solid {
+  color: #ef0c94 !important;
+  font-size: 1.2rem;
+  font-family: "Bookman Old Style";
+}
+
+.modi_he_menu{
+    border-right: 2px solid #ef0c94;
+    margin-left: 3px;
+
+}
+
+/* letras menu */
+.letra_rs {
+  color: #ef0c94 !important;
+  font-size: 1.2rem;
+  font-family: "Bookman Old Style";
+}
+.letra_rs:hover {
+  color: #af3c81 !important;
+}
+
+/* letras menu icon */
+.icono_rs {
+  color: #ef0c94 !important;
+  font-size: 1.2rem;
+}
+.icono_rs:hover {
+  color: #af3c81 !important;
+}

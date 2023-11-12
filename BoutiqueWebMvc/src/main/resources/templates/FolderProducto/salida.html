@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">Salida stock</p>
+
+
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+
+                <div class="col-lg-2 texto_font_1 sticky-top align-self-baseline">
+
+                    <p>
+                    <div class="d-grid gap-2 pb-2">
+                        <button class="btn btn-secondary" id="btn_agregar_sal">
+                            <i class="fa-solid fa-file-circle-plus"></i> Agregar
+                        </button>
+                    </div>
+
+                    <img class="card-img-top imagen_lateral_home" th:src="@{/assets/producto.jpg}" alt="..." />
+                    </p>
+                </div>
+
+
+
+                <div class="col-lg-10 align-self-baseline">
+
+                    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                    <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                        role='alert'></div>
+
+                    <div class="contendo_all_tabla">
+
+
+                        <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_salidas">
+                            <thead class="table-dark tabla_head">
+                                <tr>
+                                    <th class="text-center" scope="col">ID</th>
+                                    <th class="text-center" scope="col">CANTIDAD</th>
+                                    <th class="text-center" scope="col">FECHA</th>
+                                    <th scope="col">PRODUCTO</th>
+
+                                    <th class="text-center" scope="col">EDITAR</th>
+                                    <th class="text-center" scope="col">ELIMINAR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr th:each="sal : ${listado}">
+
+                                    <td class="text-center" th:text="${sal.salida_id}"></td>
+                                    <td class="text-center" th:text="${sal.salida_cantidad}"></td>
+                                    <td class="text-center" th:text="${#dates.format(sal.salida_fecha, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${sal.producto_id.producto_nombre}"></td>
+
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-success btn_editar_sal"
+                                            th:data-sal_id="${sal.salida_id}"
+                                            th:data-sal_cantidad="${sal.salida_cantidad}"
+                                            th:data-sal_fecha="${#dates.format(sal.salida_fecha, 'yyyy-MM-dd')}"
+                                            th:data-sal_descripcion="${sal.salida_descripcion}"
+                                            th:data-sal_producto="${sal.producto_id.producto_id}">
+                                            <i class="fa-solid fa-file-pen"></i>
+                                        </button>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn_eliminar_sal"
+                                            th:data-sal_id="${sal.salida_id}"
+                                            th:data-sal_fecha="${#dates.format(sal.salida_fecha, 'yyyy-MM-dd')}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- MODAL MANTENIMIENTO -->
+    <div class="modal fade" id="modal_mantenimiento_sal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        Formulario Stock  <span class="badge bg-secondary">SALIDA</span></h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_cantidad_sal" class="form-label">
+                            <i class="fa-solid fa-boxes-stacked"></i> CANTIDAD
+                        </label>
+                        <input type="number" class="form-control" id="mant_cantidad_sal" aria-describedby="emailHelp"
+                            step="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_fecha_sal" class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i> FECHA
+                        </label>
+                        <input type="date" class="form-control" id="mant_fecha_sal" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_descripcion_sal" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DESCRIPCIÓN
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_descripcion_sal"
+                            aria-describedby="emailHelp" style="height: 5em;">
+                        </textarea>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="mant_producto_sal" class="mb-2">
+                                <i class="fa-solid fa-box"></i> PRODUCTO
+                            </label>
+                            <select class="form-select" name="mant_producto_sal" id="mant_producto_sal">
+                                <option style="display:none;" value="-1" selected>Seleccione una producto</option>
+                                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                                    th:text="${producto.producto_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="mant_id_sal">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_sal">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_sal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar salida</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_sal" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_sal" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_sal">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- variables -->
+    <input type="hidden" id="get_dia_actual" th:value="${dia_list}">
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+
+    <script th:src="@{/js/jsweb/EmpListado.js}" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/jsweb/Productos/salidaProducto.js}"></script>
+
+    <!-- 
+
+<fmt:formatDate value="${FECHA_DD}" pattern="dd-MM-yyyy">
+
+ -->
+
+</body>
+
+</html>

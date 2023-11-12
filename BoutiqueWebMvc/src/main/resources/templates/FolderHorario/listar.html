@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">Horario</p>
+
+
+
+            <button class="btn btn-secondary mb-5" type="button" id="btn_agregar_hor">
+                        
+                <i class="fa-solid fa-file-circle-plus"></i> Registrar
+            
+            </button>
+            
+
+
+            <!-- Heading Row-->
+
+            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+            <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                role='alert'></div>
+
+
+            <!-- TABLA INTERNA /////////////////////////// table-bordered  -->
+            <div class="table-responsive contendo_all_tabla px-0">
+                <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_horarios">
+
+                    <thead class="table-dark tabla_head">
+                        <tr class="text-center">
+                            <th scope="col">HORARIO</th>
+                            <th scope="col">EMPLEADO</th>
+                            <th scope="col">H. INGRESO</th>
+                            <th scope="col">H. SALIDA</th>
+                            <th scope="col">PRODUCTIVIDAD</th>
+                            <th scope="col">ESTADO</th>
+                            <th scope="col">ELIMINAR</th>
+                            <th scope="col">EDITAR</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+
+                        <tr th:each="hor : ${listado}">
+                            <td th:text="${#dates.format(hor.horario_fecha, 'yyyy-MM-dd')}"></td>
+                            <td>[[${hor.name}]] [[${hor.lastname}]]</td>
+                            <td th:text="${hor.horario_hora_inicio}"></td>
+                            <td th:text="${hor.horario_hora_fin}"></td>
+                            <td th:text="${hor.diferencia}"></td>
+                            <td th:text="${hor.estadolaboral_nombre}"></td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn_eliminar_hor"
+                                    th:data-hor_id="${hor.horario_id}"
+                                    th:data-hor_fecha="${#dates.format(hor.horario_fecha, 'yyyy-MM-dd')}"
+                                    th:data-hor_name="${hor.name}" th:data-hor_lastname="${hor.lastname}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+
+                            <td class="text-center">
+                                <button type="button" class="btn btn-success btn_editar_hor"
+                                    th:data-hor_id="${hor.horario_id}"
+                                    th:data-hor_fecha="${#dates.format(hor.horario_fecha, 'yyyy-MM-dd')}"
+                                    th:data-hor_inicio="${hor.horario_hora_inicio}"
+                                    th:data-hor_fin="${hor.horario_hora_fin}"
+                                    th:data-hor_detalle="${hor.horario_detalle}"
+                                    th:data-hor_estado="${hor.estadolaboral_id}"
+                                    th:data-hor_empleado="${hor.userid}">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <!-- MODAL MANTENIMIENTO -->
+    <div class="modal fade" id="modal_mantenimiento_hor" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Formulario Horario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="mant_empleado_hor" class="mb-2">
+                                <i class="fa-solid fa-user-tie"></i> EMPLEADO
+                            </label>
+                            <select class="form-select" name="mant_empleado_hor" id="mant_empleado_hor">
+                                <option style="display:none;" value="-1" selected>Selecione un empleado</option>
+                                <option th:each="empl:${empleado_list}" th:value="${empl.userid}">[[${empl.name}]]
+                                    [[${empl.lastname}]]
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="mant_fecha_hor" class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i> FECHA
+                        </label>
+                        <input type="date" class="form-control" id="mant_fecha_hor" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_inicio_hor" class="form-label">
+                            <i class="fa-solid fa-hourglass-start"></i> HORA DE INGRESO</label>
+                        <input type="time" class="form-control" id="mant_inicio_hor" aria-describedby="emailHelp">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="mant_final_hor" class="form-label">
+                            <i class="fa-solid fa-hourglass-end"></i> HORA DE SALIDA</label>
+                        <input type="time" class="form-control" id="mant_final_hor" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="mant_tipo_hor" class="mb-2">
+                                <i class="fa-solid fa-clipboard-check"></i> TIPO
+                            </label>
+                            <select class="form-select" name="mant_tipo_hor" id="mant_tipo_hor">
+                                <option style="display:none;" value="-1" selected>Selecione un estado</option>
+                                <option th:each="estado:${estado_list}" th:value="${estado.estadolaboral_id}"
+                                    th:text="${estado.estadolaboral_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="mant_detalle_hor" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DETALLE
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_detalle_hor" aria-describedby="emailHelp"
+                            style="height: 5em;"></textarea>
+                    </div>
+
+                    <input type="hidden" id="mant_id_hor">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_hor">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_hor" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_hor" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_hor" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_hor">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- VARIBALE GLOBAL -->
+    <input type="hidden" id="mant_stock_general" value="0"> <!-- MANTENIMIENTO ID -->
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+    <script type="text/javascript" th:src="@{/js/jsweb/Horario/formHorario.js}"></script>
+
+    <!-- 
+    <script type="text/javascript" th:src="@{/js/jsweb/Reporte/fromReporte.js}"></script>
+ -->
+
+</body>
+
+</html>

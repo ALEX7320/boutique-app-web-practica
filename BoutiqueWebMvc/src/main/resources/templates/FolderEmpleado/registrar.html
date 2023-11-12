@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+<body class="color_fondo">
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Page content-->
+    <section class="py-5">
+        <div class="container px-5">
+            <!-- Contact form-->
+            <div class="rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+
+                    <h1 class="fw-bolder texto_font_1 texto_blanco">Registrar Empleado</h1>
+                </div>
+
+
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+
+
+                        <div th:if="${msg != null}" class='alert alert-danger' th:text="${msg}" role='alert'></div>
+
+
+                        <!--  CREAR -->
+
+                        <!-- to get an API token!-->
+                        <form th:action="@{/empleado/save}" th:object="${user}" method="post" class="texto_blanco">
+
+
+                            <div class="mb-1">
+                                <label for="txtnombre" class="form-label">Nombre (*)</label>
+                                <input type="text" class="form-control" id="txtnombre" th:field="*{name}">
+                                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="txtapellido" class="form-label">Apellido (*)</label>
+                                <input type="text" class="form-control" id="txtapellido" th:field="*{lastname}">
+                                <label th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></label>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="txtdni" class="form-label">DNI (*)</label>
+                                <input type="text" class="form-control" id="txtdni" th:field="*{dni}" maxlength="8">
+                                <label th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></label>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="txtemail" class="form-label">Email (*)</label>
+                                <input type="text" class="form-control" id="txtemail" th:field="*{email}">
+                                <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="txtmovil" class="form-label">Celular (*)</label>
+                                <input type="text" class="form-control" id="txtmovil" th:field="*{movil}" maxlength="9">
+                                <label th:if="${#fields.hasErrors('movil')}" th:errors="*{movil}"></label>
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="txtusuario" class="form-label">Usuario (*)</label>
+                                <input type="text" class="form-control" id="txtusuario" th:field="*{username}">
+                                <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></label>
+                            </div>
+
+
+                            <div class="mb-1">
+                                <label for="txtpassword" class="form-label">Contraseña (*)</label>
+                                <input type="password" class="form-control" id="txtpassword" name="password">
+                                <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-5 mb-5">
+                                <div class="form-group">
+                                    <label for="seleccion_rol">Rol (*)</label>
+                                    <select class="form-select" name="seleccion_rol" id="seleccion_rol">
+                                        <option th:each="tiprol:${lista_rol}" th:value="${tiprol.rolname}"
+                                            th:text="${tiprol.rolname}">Ventas</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <h2>
+                                <span class="text-success" th:utext="${successMessage}"></span>
+                            </h2>
+
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-md btn-success" type="submit" onclick="return confirm('¿Estás seguro que deseas registrar el empleado?')" role="button">Registrar</button>
+                                <a class="btn btn-md btn-warning" th:href="@{/empleado/listar}">Regresar</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+    <script th:src="@{/js/jsweb/EmpEditCreate.js}" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

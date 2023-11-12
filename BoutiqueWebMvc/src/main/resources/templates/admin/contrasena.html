@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+                        <div class="p-5 text-center rounded" style="background-color: #080404;">
+                            <h1><i class="fa-solid fa-unlock-keyhole texto_blanco" style="font-size:10rem;"></i></h1>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/admin/config}" method="POST" th:object="${generador_key}">
+                        <!-- USUARIO -->
+                        <div class="input-group input-group-lg mb-3">
+                            <span class="input-group-text color_in_log2" id="inputGroup-sizing-lg_1">
+                                <i class="fa-solid fa-font"></i>
+                            </span>
+                            <input type="text" class="form-control color_in_log" 
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg_1" th:field="*{key_texto}">
+                        </div>
+                        <!-- CONTRASE -->
+                        <div class="input-group input-group-lg mb-5">
+                            <span class="input-group-text color_in_log2" id="inputGroup-sizing-lg_2">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="text" class="form-control color_in_log" 
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg_2" th:value="${cifrado_key}" readonly>
+                        </div>
+                       <!-- btn -->
+
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class="btn btn-success btn-lg text-center">Generar contraseña</button>
+        
+                        </div>
+
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!-- VARIBALE GLOBAL -->
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer" style="display: none;">
+    </footer>
+
+
+
+
+</body>
+
+</html>

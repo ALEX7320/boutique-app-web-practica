@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">Cliente</p>
+
+
+            <!-- Heading Row-->
+
+            <a class="btn btn-secondary mb-5" id="btn_agregar_cli">
+                <i class="fa-solid fa-file-circle-plus"></i> Agregar
+            </a>
+
+
+            <div class="col-lg-10 align-self-baseline text-center">
+
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                    role='alert'></div>
+
+                <div class="table-responsive contendo_all_tabla">
+                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_clientes">
+                        <thead class="table-dark tabla_head">
+                            <tr class="text-center">
+                                <th scope="col">ID</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">APELLIDO</th>
+                                <th scope="col">DNI</th>
+                                <th scope="col">CELULAR</th>
+                                <th class="text-center" scope="col">EDITAR</th>
+                                <th class="text-center" scope="col">ELIMINAR</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+
+                            <tr th:each="cli : ${listado}">
+                                <td th:text="${cli.cliente_id}"></td>
+                                <td th:text="${cli.cliente_nombre}"></td>
+                                <td th:text="${cli.cliente_apellido}"></td>
+                                <td th:text="${cli.cliente_dni}"></td>
+                                <td th:text="${cli.cliente_celular}"></td>
+
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-success btn_editar_cli"
+                                        th:data-cli_id="${cli.cliente_id}"
+                                        th:data-cli_nombre="${cli.cliente_nombre}"
+                                        th:data-cli_apellido="${cli.cliente_apellido}"
+                                        th:data-cli_dni="${cli.cliente_dni}"
+                                        th:data-cli_celular="${cli.cliente_celular}">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </button>
+
+                                </td>
+                                
+                                <td class="text-center">
+
+                                    <button type="button" class="btn btn-danger btn_eliminar_cli"
+                                        th:data-cli_id="${cli.cliente_id}"
+                                        th:data-cli_nombre="${cli.cliente_nombre}"
+                                        th:data-cli_apellido="${cli.cliente_apellido}"
+                                        >
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </section>
+
+
+    <!-- MODAL MANTENIMIENTO -->
+    <div class="modal fade" id="modal_mantenimiento_cli" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Formulario Cliente</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_nombre_cli" class="form-label">
+                            <i class="fa-solid fa-file-signature"></i> NOMBRE (*)</label>
+                        <input type="text" class="form-control" id="mant_nombre_cli" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_apellido_cli" class="form-label">
+                            <i class="fa-solid fa-file-signature"></i> APELLIDO (*)</label>
+                        <input type="text" class="form-control" id="mant_apellido_cli" aria-describedby="emailHelp">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="mant_dni_cli" class="form-label">
+                            <i class="fa-solid fa-id-card"></i> DNI (*)
+                        </label>
+                        <input type="text" class="form-control" id="mant_dni_cli" aria-describedby="emailHelp"
+                            maxlength="8">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_celular_cli" class="form-label">
+                            <i class="fa-solid fa-mobile-retro"></i> CELULAR (*)
+                        </label>
+                        <input type="text" class="form-control" id="mant_celular_cli" aria-describedby="emailHelp"
+                            maxlength="9">
+                    </div>
+
+
+                    <input type="hidden" id="mant_id_cli">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_cli">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_cli" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_cli" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_cli" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_cli">
+                        <i class="fa-solid fa-trash-can"></i> Borrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- VARIVALE GOLBARO -->
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Clientes/formCliente.js}"></script>
+
+
+
+</body>
+
+</html>

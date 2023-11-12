@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">REPORTE DE VENTAS POR PRODUCTOS</p>
+
+
+            <select class="form-select mb-2" name="select_producto_rep" id="select_producto_rep" style="max-width: 300px;">
+                <option style="display:none;" value="-1" selected>Seleccione un producto</option>
+                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                    th:text="${producto.producto_nombre}">Ventas
+                </option>
+            </select>
+
+
+            <input type="date" class="form-control mb-2" placeholder="Ingrese DNI..."
+                aria-label="Recipient's username" aria-describedby="button-addon2" id="fecha_inicio_rep"
+                th:value="${dia_list}" style="max-width: 300px;">
+
+            <input type="date" class="form-control mb-3" placeholder="Ingrese DNI..."
+                aria-label="Recipient's username" aria-describedby="button-addon2" id="fecha_fin_rep"
+                th:value="${dia_list}" style="max-width: 300px;">
+
+            <button class="btn btn-warning" type="submit" id="btn_borrar_rep">
+                <i class="fa-solid fa-eraser"></i>Limpiar</button>
+
+            <button class="btn btn-secondary" type="submit" id="btn_generar_rep">
+                <i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+
+
+
+            <div class="d-grid gap-2 pb-2">
+
+    
+                <div class="col-8">
+                    <div class="input-group mb-3 row-3" >
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="card text-center" id="contenedor_resultado" style="display:none;">
+                    <div class="card-header" id="marca_prod">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title pt-2" id="titulo_prod">Special title treatment</h5>
+                        <p class="card-text pb-2" id="descripcion_prod">With supporting text below as a natural lead-in
+                            to additional content.</p>
+                        <a href="/reporte/listar/?format=pdf" class="btn btn-danger" target="_blank" id="btn_generar_pdf">
+                            <i class="fa-solid fa-file-pdf"></i> Generar documento
+
+                        </a>
+
+
+
+
+                    </div>
+                    <div class="card-footer text-muted" id="date_prod">
+                        Reporte
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+
+
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                    role='alert'></div>
+
+
+                <!-- TABLA INTERNA /////////////////////////// table-bordered  -->
+                <div class="table-responsive contendo_all_tabla px-0">
+                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_ventas_reporte">
+
+                        <thead class="table-dark tabla_head">
+                            <tr class="text-center">
+                                <th scope="col">ID</th>
+                                <th scope="col">COMPRADOR</th>
+                                <th scope="col">DNI</th>
+                                <th scope="col">PRECIO</th>
+                                <th scope="col">PRECIO IGV</th>
+                                <th scope="col">DESCUENTO</th>
+                                <th scope="col">CANTIDAD</th>
+                                <th scope="col">TOTAL</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-center">
+
+                           <!--  <tr th:each="stk : ${listado}">
+                                <td></td>
+                                <td th:text="${stk.producto_nombre}"></td>
+                                <td th:text="${stk.marca_nombre}"></td>
+                                <td th:text="${stk.tipoproducto_nombre}"></td>
+
+                                <td th:text="${stk.tipoproducto_nombre}"></td>
+                                <td th:text="${stk.tipoproducto_nombre}"></td>
+
+                            </tr> -->
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+
+    <!-- VARIBALE GLOBAL -->
+    <input type="hidden" id="mant_stock_general" value="0"> <!-- MANTENIMIENTO ID -->
+    <input type="hidden" id="get_dia_actual" th:value="${dia_list}">
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer" style="display: none;">
+    </footer>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Reporte/fromReporte.js}"></script>
+
+    <!-- 
+    <script type="text/javascript" th:src="@{/js/jsweb/Almacen/ingresoAlmacen.js}"></script>
+     
+    <script type="text/javascript" th:src="@{/js/jsweb/Almacen/salidaAlmacen.js}"></script>
+ 
+ -->
+</body>
+
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">Producto</p>
+
+
+
+            
+            <button class="btn btn-secondary mb-4 mt-6" id="btn_agregar_prod">
+                <i class="fa-solid fa-file-circle-plus"></i> Agregar
+            </button>
+
+            <!-- Heading Row-->
+
+            <div class="col-lg-10 align-self-baseline">
+
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                    role='alert'></div>
+
+                <div class="table-responsive contendo_all_tabla">
+                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_productos">
+                        <thead class="table-dark tabla_head">
+                            <tr>
+                                <th class="text-center" scope="col">ID</th>
+                                <th scope="col">IMAGEN</th>
+
+                                <th scope="col">NOMBRE</th>
+                                <th class="text-center" scope="col">PRECIO</th>
+
+                                <th scope="col">MARCA</th>
+                                <th scope="col">TIPO PRENDA</th>
+
+                                <th class="text-center" scope="col">EDITAR</th>
+                                <th class="text-center" scope="col">ELIMINAR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr th:each="prod : ${listado}">
+
+                                <td class="text-center" th:text="${prod.producto_id}"></td>
+                                <td><img th:src="${prod.producto_imagen}"  alt="..." style="height: 100px; width: 80px;object-fit: cover;">
+                                </td>
+
+                                <td th:text="${prod.producto_nombre}"></td>
+                                <td class="text-center">S/ [[${prod.producto_precio}]]</td>
+
+                                <td th:text="${prod.marca_id.marca_nombre}"></td>
+                                <td th:text="${prod.tipoproducto_id.tipoproducto_nombre}"></td>
+
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-success btn_editar_prod"
+                                        th:data-prod_id="${prod.producto_id}"
+                                        th:data-prod_nombre="${prod.producto_nombre}"
+                                        th:data-prod_imagen="${prod.producto_imagen}"
+                                        th:data-prod_descripcion="${prod.producto_descripcion}"
+                                        th:data-prod_estado="${prod.producto_estado}"
+                                        th:data-prod_precio="${prod.producto_precio}"
+                                        th:data-prod_marca="${prod.marca_id.marca_id}"
+                                        th:data-prod_tipoproducto="${prod.tipoproducto_id.tipoproducto_id}">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </button>
+
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button type="button" class="btn btn-danger btn_eliminar_prod"
+                                        th:data-prod_id="${prod.producto_id}"
+                                        th:data-prod_nombre="${prod.producto_nombre}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- MODAL MANTENIMIENTO -->
+    <div class="modal fade" id="modal_mantenimiento_prod" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Formulario Producto</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_nombre_prod" class="form-label">
+                            <i class="fa-solid fa-file-signature"></i> NOMBRE (*)</label>
+                        <input type="text" class="form-control" id="mant_nombre_prod" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_imagen_prod" class="form-label">
+                            <i class="fa-solid fa-image"></i> IMAGEN</label>
+                        <input type="text" class="form-control" id="mant_imagen_prod" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_descripcion_prod" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DESCRIPCIÓN (*)
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_descripcion_prod"
+                            aria-describedby="emailHelp" style="height: 5em;"></textarea>
+                    </div>
+                    <!-- 
+                    <div class="mb-3">
+                        <label for="mant_precio_prod" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="mant_precio_prod" aria-describedby="emailHelp"
+                            step="0.01">
+                    </div>
+ -->
+
+                    <div class="mb-3">
+                        <label for="mant_precio_prod" class="form-label">
+                            <i class="fa-solid fa-money-bill-1-wave"></i> PRECIO (*)
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">S/</span>
+                            <input type="number" class="form-control" id="mant_precio_prod" step="0.01"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="mant_marca_prod" class="mb-2">
+                                <i class="fa-solid fa-clipboard-check"></i> MARCA (*)
+                            </label>
+                            <select class="form-select" name="mant_marca_prod" id="mant_marca_prod">
+                                <option style="display:none;" value="-1" selected>Seleccione una marca</option>
+                                <option th:each="marca:${marca_list}" th:value="${marca.marca_id}"
+                                    th:text="${marca.marca_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="mant_tipo_prod" class="mb-2">
+                                <i class="fa-solid fa-tag"></i> TIPO (*)
+                            </label>
+                            <select class="form-select" name="mant_tipo_prod" id="mant_tipo_prod">
+                                <option style="display:none;" value="-1" selected>Seleccione un tipo</option>
+                                <option th:each="tipo:${tipo_list}" th:value="${tipo.tipoproducto_id}"
+                                    th:text="${tipo.tipoproducto_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <input type="hidden" id="mant_id_prod">
+                    <input type="hidden" id="mant_estado_prod">
+
+
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_prod">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_prod" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar producto</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_prod" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_prod" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_prod">
+                        <i class="fa-solid fa-trash-can"></i> Borrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- VARIVALE GOLBARO -->
+    <input type="hidden" id="imagen_por_defecto" th:value="${imagen_por_defecto}">
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+
+    <script th:src="@{/js/jsweb/EmpListado.js}" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/jsweb/Productos/formProducto.js}"></script>
+
+
+
+</body>
+
+</html>

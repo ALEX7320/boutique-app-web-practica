@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">Descuento</p>
+
+
+
+
+            <!-- Heading Row-->
+
+            
+            <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+            <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                role='alert'></div>
+
+
+
+
+            <button class="btn btn-secondary mt-5 mb-3" id="btn_agregar_desc">
+                <i class="fa-solid fa-file-circle-plus"></i> Agregar
+            </button>
+
+            <div class="col-lg-8 align-self-baseline text-center">
+
+                <div class="table-responsive contendo_all_tabla">
+                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_descuento">
+                        <thead class="table-dark tabla_head">
+                            <tr class="text-center">
+                                <th scope="col">ID</th>
+                                <th scope="col">CAMPAÑA</th>
+                                <th scope="col">DESCUENTO %</th>
+                                <th scope="col">ESTADOS</th>
+                                <th  scope="col">EDITAR</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+
+                            <tr th:each="desc : ${listado}">
+                                <td th:text="${desc.descuento_id}"></td>
+                                <td th:text="${desc.descuento_nombre}"></td>
+                                <td th:text="@{{porcen}% (porcen=${desc.descuento_procentaje})}"></td>
+                                <td th:text="${desc.descuento_disponible ? 'ACTIVO':'NO DISPONIBLE'}"></td>
+
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-success btn_editar_desc"
+                                        th:data-desc_id="${desc.descuento_id}"
+                                        th:data-desc_nombre="${desc.descuento_nombre}"
+                                        th:data-desc_porcentaje="${desc.descuento_procentaje}"
+                                        th:data-desc_disponible="${desc.descuento_disponible}">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <!-- MODAL MANTENIMIENTO -->
+    <div class="modal fade" id="modal_mantenimiento_desc" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Formulario Descuento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_nombre_desc" class="form-label"><i class="fa-solid fa-tag"></i> CAMPAÑA</label>
+                        <input type="text" class="form-control" id="mant_nombre_desc" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_porcentaje_desc" class="form-label"><i class="fa-solid fa-percent"></i> PORCENTAJE</label>
+                        <input type="number" class="form-control" id="mant_porcentaje_desc"
+                            aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="mant_estado_dsct" class="mb-2"><i class="fa-solid fa-folder-open"></i> ESTADO</label>
+                            <select class="form-select" name="mant_estado_dsct" id="mant_estado_dsct">
+                                <option th:each="tipo:${list_dsc_tipos}" th:value="${tipo.desc_bool}"
+                                    th:text="${tipo.desc_text}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <input type="hidden" id="mant_id_desc">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_desc">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- VARIVALE GOLBARO -->
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Descuentos/formDescuento.js}"></script>
+
+
+
+</body>
+
+</html>

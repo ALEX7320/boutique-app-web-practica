@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+    <!-- PARA REALIZAR CALCULO -->
+    <script type="text/javascript" th:src="@{/js/jsweb/Ventas/fromVentaCalculos.js}"></script>
+
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">VENTA</p>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                <button class="btn btn-secondary ocultar_tag" id="btn_consulta_stock">
+                    <i class="fa-solid fa-magnifying-glass"></i> Consultar Stock
+                </button> 
+
+                <button class="btn btn-secondary" id="btn_agregar_ven">
+                    <i class="fa-solid fa-file-circle-plus"></i> Agregar Venta
+                </button>
+
+            </div>
+
+
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5 table-responsive ">
+
+
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                    role='alert'></div>
+
+
+                <!-- TABLA INTERNA /////////////////////////// table-bordered  -->
+
+                <table class="table color_back_white_m" id="tabla_ventas">
+
+                    <!--  
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">VENTA</th>
+                            <th scope="col">DETALLE</th>
+                        </tr>
+                    </thead>-->
+
+                    <tbody>
+
+                        <tr th:each="vent : ${listado}">
+
+                            <!-- CONTADOR A 0 -->
+                            <script th:inline="javascript">calcular_set_zero()</script>
+
+                            
+
+                            <td style="border-style: none;">
+                                <div class="contendo_all_venta">
+                                    <div class="list-group ">
+
+                                        <a class="list-group-item list-group-item venta_header_list" aria-current="true">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1" th:text="@{ID: {ide} (ide=${vent.venta_id})}">ID</h5>
+                                            </div>
+                                            <!-- 
+                                            <p class="mb-1" ></p> -->
+                                        </a>
+
+                                        <a class="list-group-item list-group-item-action venta_mod_prin">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    Nombre cliente</h5>
+                                            </div>
+                                            <p class="mb-1">[[${vent.cliente_id.cliente_nombre}]] [[${vent.cliente_id.cliente_apellido}]]</p>
+                                        </a>
+
+                                        <a class="list-group-item list-group-item-action venta_mod_prin">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    Fecha compra</h5>
+                                            </div>
+                                            <p class="mb-1" th:text="${#dates.format(vent.venta_fecha, 'yyyy-MM-dd')}">
+                                            </p>
+                                        </a>
+
+                                        <a class="list-group-item list-group-item-action venta_mod_prin">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    <i class="fa-solid fa-percent"></i> IGV</h5>
+                                            </div>
+                                            <p class="mb-1" th:text="@{{price} (%) (price=${vent.venta_igv})}" ></p>
+                                        </a>
+
+                                        <a class="list-group-item list-group-item-action venta_mod_prin">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    <i class="fa-solid fa-money-bill-1-wave"></i>
+                                                    Tipo pago</h5>
+                                            </div>
+                                            <p class="mb-1" th:text="${vent.tipopago_id.tipopago_nombre}"></p>
+                                        </a>
+
+                                        <!-- btn editar venta -->
+                                        <a class="d-grid gap-2">
+
+                                            <div class="d-flex bd-highlight">
+                                                <div class="p-2 flex-fill bd-highlight" style="padding: 0px !important;">
+                                        
+                                                    <button type="button" class="btn btn-success btn-sm venta_list_btn_left btn_editar_ven"
+                                                        th:data-ven_id="${vent.venta_id}"
+                                                        th:data-ven_fecha="${#dates.format(vent.venta_fecha, 'yyyy-MM-dd')}"
+                                                        th:data-ven_descripcion="${vent.venta_descripcion}"
+                                                        th:data-ven_igv="${vent.venta_igv}"
+                                                        th:data-ven_estado="${vent.venta_estado}"
+                                                        th:data-ven_tipopago="${vent.tipopago_id.tipopago_id}"
+                                                        th:data-ven_cliente="${vent.cliente_id.cliente_id}"
+                                                        th:data-ven_comprobante="${vent.comprobante_id.comprobante_id}" style="width: 100%;">
+                                                        <i class="fa-solid fa-file-pen"></i> EDITAR
+                                                    </button>
+                                        
+                                                </div>
+                                                <div class="p-2 flex-fill bd-highlight" style="padding: 0px !important ;">
+                                                    <button type="button" class="btn btn-danger btn-sm btn_eliminar_ven venta_list_btn_right"
+                                                        th:data-ven_id="${vent.venta_id}"
+                                                        th:data-ven_fecha="${#dates.format(vent.venta_fecha, 'yyyy-MM-dd')}"
+                                                        th:data-ven_cliente="${vent.cliente_id.cliente_nombre}" style="width: 100%;">
+                                                        <i class="fa-solid fa-trash-can"></i> BORRAR
+                                                    </button>
+                                        
+                                        
+                                                </div>
+                                            </div>
+
+                                        </a>
+
+
+
+                                        
+
+
+                                    </div>
+                                </div>
+                            </td>
+                            
+
+                            <td style="border-style: none;">
+
+                                <div class="contendo_all_tabla">
+                                    <!-- TABLA INTERNA /////////////////////////// -->
+                                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin">
+                                        <thead class="table-dark tabla_head">
+                                            <tr class="text-center">
+                                                <th scope="col">PRODUCTO</th>
+                                                <th scope="col">PRECIO</th>
+                                                <th scope="col">PRECIO IGV</th>
+                                                <th scope="col">DESCUENTO</th>
+                                                <th scope="col">CANTIDAD</th>
+                                                <th scope="col">TOTAL</th>
+                                                <th scope="col">
+                                                    <!-- BTN ADD -->
+                                                    <div class="d-grid gap-2">
+                                                        <button class="btn btn-dark btn-sm btn_add_detalleventa" type="button"
+                                                            id="btn_agregar_det" th:data-ven_id="${vent.venta_id}">
+                                                            <i class="fa-solid fa-file-circle-plus"></i> AGREGAR
+                                                        </button>
+                                                    </div>
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+
+                                            <tr th:each="detalle: ${vent.detalleventa_list}">
+
+                                                <!-- NOMBNRE -->
+                                                <td th:text="${detalle.producto_id.producto_nombre}"></td>
+
+                                                <!-- PRECIO -->
+                                                <td th:id="@{id_precio_{ide} (ide=${detalle.detalleventa_id})}">
+                                                </td>
+
+                                                <!-- PRECIO IGV -->
+                                                <td th:id="@{id_precio_igv_{ide} (ide=${detalle.detalleventa_id})}">
+                                                </td>
+
+                                                <!-- DESCUENTO -->
+                                                <td th:id="@{id_precio_descuento_{ide} (ide=${detalle.detalleventa_id})}"></td>
+
+                                                <!-- CANTIDAD -->
+                                                <td th:text="${detalle.detalleventa_cantidad}"></td>
+
+                                                <!-- TOTAL -->                                                        
+                                                <td th:id="@{id_precio_total_{ide} (ide=${detalle.detalleventa_id})}"
+                                                ></td>
+
+                                                <td>
+                                                    <div class="d-grid gap-2">
+                                                        <button class="btn btn-danger btn-sm btn_eliminar_det" type="button"
+                                                            th:data-det_id="${detalle.detalleventa_id}"
+                                                            th:data-det_nombre="${detalle.producto_id.producto_nombre}"
+                                                            >
+                                                            <i class="fa-solid fa-trash-can"></i> BORRAR
+                                                        </button>
+
+                                                    </div>
+
+                                                </td>
+                                                <!-- INICIAL CONTADOR  -->
+
+                                                <script th:inline="javascript">
+                                                    set_variables_tag(
+                                                        param_tag_id = "[[${detalle.detalleventa_id}]]"
+                                                    )
+                                                </script>
+
+                                                <script th:inline="javascript">
+                                                    set_variables_price(
+                                                        param_precio="[[${detalle.producto_id.producto_precio}]]",
+                                                        param_cantidad="[[${detalle.detalleventa_cantidad}]]",
+                                                        param_descuento="[[${detalle.descuento_id.descuento_procentaje}]]",
+                                                        param_igv="[[${vent.venta_igv}]]"
+
+                                                    )   
+                                                </script>
+
+                                                <script th:inline="javascript">
+                                                    calcular_total_tabla()
+                                                </script>
+
+
+                                            </tr>
+
+
+                                            <tr class="caption-top">
+                                                <td class="dtventa_footer text-end" colspan="5">Pago total</td>
+                                                <!-- ID DINAMICA -->
+                                                <td class="dtventa_footer"
+                                                    th:id="@{ID_REGISTRO_{ide} (ide=${vent.venta_id})}">Sum</td>
+                                                <td class="dtventa_footer"></td>
+                                            </tr>
+
+                                            <!-- SET VALOR A TEXTO -->
+
+                                            <script th:inline="javascript">
+                                                calcular_totales_ret(
+                                                    id_objeto = "[[${vent.venta_id}]]"
+                                                )
+                                            </script>
+
+                                            
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </td>
+
+                            
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ******VETNA***************************************************************************** -->
+
+    <!-- MODAL MANTENIMIENTO VENTA -->
+    <div class="modal fade" id="modal_mantenimiento_ven" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Registro de venta</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label for="mant_cliente_ven" class="mb-2">
+                                <i class="fa-solid fa-user"></i> CLIENTE (*)
+                            </label>
+                            <select class="form-select" name="mant_cliente_ven" id="mant_cliente_ven">
+                                <option style="display:none;" value="-1" selected>Seleccionar...</option>
+                                <option th:each="cliente:${cliente_list}" th:value="${cliente.cliente_id}">[[${cliente.cliente_nombre}]] [[${cliente.cliente_apellido}]]
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="mant_fecha_ven" class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i> FECHA (*)
+                        </label>
+                        <input type="date" class="form-control" id="mant_fecha_ven" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_descripcion_ven" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DESCRIPCIÓN
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_descripcion_ven"
+                            aria-describedby="emailHelp" style="height: 5em;"></textarea>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="mant_igv_ven" class="form-label">
+                            <i class="fa-solid fa-percent"></i> IGV (*)
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">%</span>
+                            <input type="number" class="form-control" id="mant_igv_ven" aria-describedby="emailHelp"
+                                step="0.01" style="background-color: white;" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 mt-3">
+                        <div class="form-group">
+                            <label for="mant_tipopago_ven" class="mb-2">
+                                <i class="fa-solid fa-money-bill-1-wave"></i> TIPO DE PAGO (*)</label>
+                            <select class="form-select" name="mant_tipopago_ven" id="mant_tipopago_ven">
+                                <option style="display:none;" value="-1" selected>Seleccionar...</option>
+                                <option th:each="pago:${tipopago_list}" th:value="${pago.tipopago_id}"
+                                    th:text="${pago.tipopago_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 mt-3">
+                        <div class="form-group">
+                            <label for="mant_comprobante_ven" class="mb-2">
+                                <i class="fa-regular fa-file-lines"></i> COMPROBANTE DE PAGO (*)</label>
+                            <select class="form-select" name="mant_comprobante_ven" id="mant_comprobante_ven">
+                                <option style="display:none;" value="-1" selected>Seleccionar...</option>
+                                <option th:each="comprobante:${comprobante_list}"
+                                    th:value="${comprobante.comprobante_id}"
+                                    th:text="${comprobante.comprobante_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="mant_id_ven">
+                    <input type="hidden" id="mant_estado_ven">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_ven">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_ven" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar venta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_ven" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_ven" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_ven">
+                        <i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- *******DETALLEVENTA************************************************************************** -->
+
+
+    <!-- MODAL MANTENIMIENTO DETALLEVENTA -->
+    <div class="modal fade" id="modal_mantenimiento_det" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="staticBackdropLabel">Agregar Producto</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_cantidad_det" class="form-label">
+                            <i class="fa-solid fa-boxes-stacked"></i> CANTIDAD (*)</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">Unidades</span>
+                            <input type="number" class="form-control" id="mant_cantidad_det" min="1"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                            <label for="mant_producto_det" class="mb-2">
+                                <i class="fa-solid fa-box"></i> PRODUCTO (*)</label>
+                            <select class="form-select" name="mant_producto_det" id="mant_producto_det">
+                                <option style="display:none;" value="-1" selected>Seleccionar producto</option>
+                                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                                    th:text="${producto.producto_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="mant_descuento_det" class="mb-2">
+                                <i class="fa-solid fa-receipt"></i> DESCUENTO (*)
+                            </label>
+                            <select class="form-select" name="mant_descuento_det" id="mant_descuento_det">
+                                <option th:each="descuento:${descuento_list}" th:value="${descuento.descuento_id}"
+                                    th:text="${descuento.descuento_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="mant_id_det">
+                    <input type="hidden" id="mant_id_venta_det">
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_det">
+                        <i class="fa-solid fa-file-circle-plus"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- MODAL ELIMINAR -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal_eliminar_det" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+                    <p id="del_mesaje_eliminar_det" class="text-center">confirmacion para eliminar</p>
+                    <input type="hidden" id="del_id_det" value="0">
+
+                    <!-- FORMLUARIO FIN-->
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btn_form_eliminar_det">
+                        <i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ******CONSULTA STOCKL***************************************************************************** -->
+
+    <!-- MODAL stocl -->
+    <div class="modal fade" id="modal_consulta_stock" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head_full">
+                    <h5 class="modal-title" id="staticBackdropLabel">Consulta Stock</h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+
+                        <div class="input-group">
+                            <select class="form-select" name="consulta_stock_sel" id="consulta_stock_sel">
+                                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                                    th:text="${producto.producto_nombre}">Ventas
+                                </option>
+                            </select>
+                            <button class="btn btn-success" type="button" id="btn_buscar_consulta_stock">
+                                <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3" id="card_stock_producto">
+
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-6 color_con_card">
+                                    <img  src="https://i.postimg.cc/jd0dzc7R/imagen.png" class="img-fluid rounded-start"  style="height: 100%; object-fit: cover !important;"  alt="...">
+                                </div>
+                                <div class="col-md-6" style="border-left: 1px solid rgb(209, 209, 209) !important;">
+                                    <ul class="list-group list-group-flush">        
+                                        <div class="list-group-item">
+                                            <h6> <span class="badge bg-secondary">Nombre</span></h6>
+                                            <p class="card-text">lorem</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6> <span class="badge bg-secondary">Marca</span></h6>
+                                            <p class="card-text">lorem</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6> <span class="badge bg-secondary">Tipo</span></h6>
+                                            <p class="card-text">lorem</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6> <span class="badge bg-secondary">Precio</span></h6>
+                                            <p class="card-text">lorem</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6> <span class="badge bg-secondary">Stock Disponible</span></h6>
+                                            <p class="card-text">lorem</p>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <input type="hidden" id="id_consulta_stock">
+
+                    <!-- 
+                    <input type="hidden" id="mant_estado_ven"> -->
+
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot_full">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ******************************************************************************************** -->
+
+
+    <!-- VARIVALE GOLBARO -->
+    <input type="hidden" id="igv_monto_tag" th:value="${igv_monto}">
+    <input type="hidden" id="get_dia_actual" th:value="${dia_list}">
+
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+
+    <script th:src="@{/js/jsweb/EmpListado.js}" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Ventas/formVenta.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jsweb/Ventas/formDetalleventa.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jsweb/Ventas/formConsultaStock.js}"></script>
+
+
+</body>
+
+</html>

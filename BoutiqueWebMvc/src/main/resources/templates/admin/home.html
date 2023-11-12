@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+<body class="color_fondo">
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+    <!-- Header - set the background image for the header in the line below    -->
+    <header id="banner_image_mod" class="py-5 bg-image-full_mod"
+        style="background-image: url('https://i.postimg.cc/5yk3tTsY/vanyfondo.jpg');height: 100vh;">
+        <div class="text-center my-5">
+        </div>
+    </header>
+
+    <!-- VENTANA LATERAL -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            style="background-color: rgba(0,0,0,0);">
+            <div class="toast-header"
+                style="background-color: #080404; color: #ef0c94; border-bottom: 2px solid #ef0c94 ;">
+                <strong class="me-auto"><i class="fa-solid fa-user"></i> Empleado</strong>
+                <small>
+                    ([[${userrol}]])
+                </small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" style="background-color: rgba(255, 200, 243, 0.884);">
+                Bienvenid@ <b>[[${username}]]</b>!
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer" hidden>
+    </footer>
+
+    <script>
+
+        // AL CARGAR LA PAGINA
+        $(document).ready(function () {
+
+            let toastLiveExample = document.getElementById('liveToast')
+            let toast = new bootstrap.Toast(toastLiveExample)
+            toast.show()
+
+        })
+
+    </script>
+
+
+</body>
+
+</html>

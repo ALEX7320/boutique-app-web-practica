@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Section-->
+    <section class="pb-5">
+
+        <div class="container px-4 px-lg-5 mt-5">
+
+            <p class="text h2 texto_font_1 texto_blanco">ALMACEN</p>
+
+
+
+            <div class="d-grid gap-2 pb-2">
+                <!-- WIDGETS AQUI -->
+            </div>
+
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+
+
+                <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+
+                <div th:if="${alerta_busqueda != null}" class='alert alert-danger' th:text="${alerta_busqueda}"
+                    role='alert'></div>
+
+
+                <!-- TABLA INTERNA /////////////////////////// table-bordered  -->
+                <div class="table-responsive contendo_all_tabla p-0">
+                    <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_stock_reporte">
+
+                        <thead class="table-dark tabla_head">
+                            <tr class="text-center">
+                                <th scope="col">ID</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">INGRESO</th>
+                                <th scope="col">SALIDA</th>
+                                <th scope="col">USADO</th>
+                                <th scope="col">TOTAL</th>
+                                <th scope="col">SALIDA</th>
+                                <th scope="col">INGRESO</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-center">
+
+                            <tr th:each="stk : ${listado}">
+                                <td th:text="${stk.stock_id}"></td>
+                                <td th:text="${stk.stock_nombre}"></td>
+                                <td th:text="${stk.stock_ingreso}"></td>
+
+                                <td th:text="${stk.stock_salida}"></td>
+                                <td th:text="${stk.stock_usado}"></td>
+                                <td th:text="${stk.stock_total}"></td>
+
+                                <td>
+                                    <button type="button" class="btn btn-primary btn_salida_list"
+                                        th:data-stk_id="${stk.stock_id}" th:data-stk_nombre="${stk.stock_nombre}">
+                                        <i class="fa-solid fa-dolly"></i> SALIDA
+
+                                    </button>
+
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn_ingreso_list"
+                                        th:data-stk_id="${stk.stock_id}" th:data-stk_nombre="${stk.stock_nombre}">
+                                        <i class="fa-solid fa-box-open"></i> INGRESO
+
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!--    INGRESO ***********************************************************************  -->
+
+    <!-- MANTENIMIENTO -->
+    <div class="modal fade" id="modal_ingreso" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head_full">
+                    <h5 class="modal-title">Ingreso Stock <span class="badge bg-secondary"
+                            id="modal_ingreso_titulo">New</span></h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="table-responsive contendo_all_tabla">
+
+
+
+                        <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_ingresos_modal">
+                            <thead class="table-dark tabla_head">
+                                <tr class="text-center">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">CANTIDAD</th>
+                                    <th scope="col">FECHA</th>
+                                    <th scope="col">PROVEEDOR</th>
+                                    <th class="text-center" scope="col">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                                <tr>
+
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                    <td class="text-center">
+
+                                        <button type="button" class="btn btn-success btn_editar_ing">
+                                            EDT <i class="fa-solid fa-file-pen"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn_eliminar_ing">
+                                            DEL <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer mod_foot_full">
+
+                    <button class="btn btn-secondary" id="btn_agregar_ing">
+                        <i class="fa-solid fa-file-circle-plus"></i> Agregar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_ingreso_mod" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title">Registro ingreso <span class="badge bg-secondary"
+                            id="modal_ingreso_mod_titulo">New</span></h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_cantidad_ing" class="form-label">
+                            <i class="fa-solid fa-boxes-stacked"></i> CANTIDAD (*)
+                        </label>
+                        <input type="number" class="form-control" id="mant_cantidad_ing" aria-describedby="emailHelp"
+                            step="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_fecha_ing" class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i> FECHA (*)
+                        </label>
+                        <input type="date" class="form-control" id="mant_fecha_ing" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_proveedor_ing" class="form-label">
+                            <i class="fa-solid fa-boxes-packing"></i> PROVEEDOR (*)
+                        </label>
+                        <input type="text" class="form-control" id="mant_proveedor_ing" aria-describedby="emailHelp">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mant_descripcion_ing" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DESCRIPCIÓN (*)
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_descripcion_ing"
+                            aria-describedby="emailHelp" style="height: 5em;">
+                        </textarea>
+                    </div>
+
+                    <div class="col-md-5" style="display: none;">
+                        <!--   -->
+                        <div class="form-group">
+                            <label for="mant_producto_ing">
+                                <i class="fa-solid fa-box"></i> PRODUCTO
+                            </label>
+                            <select class="form-select" name="mant_producto_ing" id="mant_producto_ing" disabled>
+                                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                                    th:text="${producto.producto_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="mant_id_ing">
+                    <!-- FORMLUARIO FIN-->
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button class="btn btn-secondary" id="btn_atras_ingreso">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Atras</button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_ing">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--    SALIDA ***********************************************************************  -->
+
+    <!-- MANTENIMIENTO -->
+    <div class="modal fade" id="modal_salida" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head_full">
+                    <h5 class="modal-title">Salida Stock <span class="badge bg-secondary" id="modal_salida_titulo">New</span>
+                    </h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="table-responsive contendo_all_tabla">
+                        <table class="table table-bordered table-hover mb-0 tabla_mod_prin" id="tabla_salidas_modal">
+                            <thead class="table-dark tabla_head">
+                                <tr class="text-center">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">CANTIDAD</th>
+                                    <th scope="col">FECHA</th>
+                                    <th scope="col">INFORMACIÓN</th>
+                                    <th class="text-center" scope="col">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                                <tr>
+
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                    <td class="text-center">
+
+                                        <button type="button" class="btn btn-success btn_editar_sal">
+                                            EDT <i class="fa-solid fa-file-pen"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn_eliminar_sal">
+                                            DEL <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="modal-footer mod_foot_full">
+                    <button class="btn btn-secondary" id="btn_agregar_sal">
+                        <i class="fa-solid fa-file-circle-plus"></i> Agregar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_salida_mod" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content mod_contenedor">
+                <div class="modal-header mod_head">
+                    <h5 class="modal-title">Registro salida <span class="badge bg-secondary"
+                            id="modal_salida_mod_titulo">New</span></h5>
+                    <button type="button" class="btn-close color_back_white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <!-- FORMLUARIO INICIO-->
+
+                    <div class="mb-3">
+                        <label for="mant_cantidad_sal" class="form-label">
+                            <i class="fa-solid fa-boxes-stacked"></i> CANTIDAD (*)
+                        </label>
+                        <input type="number" class="form-control" id="mant_cantidad_sal" aria-describedby="emailHelp"
+                            step="1">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="mant_fecha_sal" class="form-label">
+                            <i class="fa-solid fa-calendar-days"></i> FECHA (*)
+                        </label>
+                        <input type="date" class="form-control" id="mant_fecha_sal" aria-describedby="emailHelp">
+
+
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="mant_descripcion_sal" class="form-label">
+                            <i class="fa-solid fa-file-lines"></i> DESCRIPCIÓN (*)
+                        </label>
+                        <textarea type="text" class="form-control" id="mant_descripcion_sal"
+                            aria-describedby="emailHelp" style="height: 5em;">
+                        </textarea>
+                    </div>
+
+                    <div class="col-md-5" style="display: none;">
+                        <div class="form-group">
+                            <label for="mant_producto_sal">Producto</label>
+                            <select class="form-select" name="mant_producto_sal" id="mant_producto_sal" disabled>
+                                <option th:each="producto:${producto_list}" th:value="${producto.producto_id}"
+                                    th:text="${producto.producto_nombre}">Ventas
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="mant_id_sal">
+
+                    <!-- FORMLUARIO FIN-->
+
+
+                </div>
+                <div class="modal-footer mod_foot">
+                    <button class="btn btn-secondary" id="btn_atras_salida">
+                        <i class="fa-solid fa-circle-arrow-left"></i> Atras
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn_form_registrar_sal">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- VARIBALE GLOBAL -->
+    <input type="hidden" id="mant_stock_general" value="0"> <!-- MANTENIMIENTO ID -->
+    <input type="hidden" id="get_dia_actual" th:value="${dia_list}">
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer">
+    </footer>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Almacen/ingresoAlmacen.js}"></script>
+
+    <script type="text/javascript" th:src="@{/js/jsweb/Almacen/salidaAlmacen.js}"></script>
+
+
+</body>
+
+</html>

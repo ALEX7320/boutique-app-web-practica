@@ -1,0 +1,85 @@
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark color_barras" th:fragment="tag-barra-superior">
+    <div class="container">
+        <a class="navbar-brand" href="#!">
+            <img class="logo_home" th:src="@{/assets/logo.jpg}">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 letra_rs">
+
+
+                <li class="nav-item"><a class="nav-link letra_rs" th:href="@{/admin/home}">Inicio</a></li>
+
+
+                <li class="nav-item"><a class="nav-link letra_rs" th:href="@{/cliente/listar}">Cliente</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle letra_rs" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Empleados
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/empleado/listar}">Registro</a></li>
+
+                        <li class="ocultar_tag">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item ocultar_tag" th:href="@{/horario/listar}">Horarios</a></li>
+                    </ul>
+
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle letra_rs" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Control Producto
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/producto/listar}">Producto</a></li>
+                        
+                        <!--                         
+                        <li class="ocultar_tag">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item ocultar_tag" th:href="@{/ingreso/listar}">Ingreso Stock</a></li>
+                        <li><a class="dropdown-item ocultar_tag" th:href="@{/salida/listar}">Salida Stock</a></li>
+                         -->
+                        
+                        
+                        <li class="ocultar_tag">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item ocultar_tag" th:href="@{/almacen/listar}">Almacen</a></li> 
+                    </ul>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle letra_rs" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Detalle Venta
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/venta/listar}">Venta</a></li>
+                        <li><a class="dropdown-item ocultar_tag" th:href="@{/descuento/listar}">Descuento</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" th:href="@{/reporte/listar}">Reporte</a></li> 
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-success ms-3" th:href="@{/logout}">SALIR</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>

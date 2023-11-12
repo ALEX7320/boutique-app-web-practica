@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+<body class="color_fondo">
+
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+                                <div class="p-5 text-center rounded" style="background-color: #080404;">
+                                    <img class="logo_home" th:src="@{assets/logo.jpg}" style="height: 100%; width: 100%;">
+
+                                </div>
+                            </div>
+
+                            <form th:action="@{/login}" method="post">
+                                <!-- USUARIO -->
+                                <div class="input-group input-group-lg mb-3">
+                                    <span class="input-group-text color_in_log2" id="inputGroup-sizing-lg_1">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                    <input type="text" class="form-control color_in_log" id="username" name="username"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg_1">
+                                </div>
+                                <!-- CONTRASE -->
+                                <div class="input-group input-group-lg mb-5">
+                                    <span class="input-group-text color_in_log2" id="inputGroup-sizing-lg_2">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control color_in_log" id="password"
+                                        name="password" aria-label="Sizing example input"
+                                        aria-describedby="inputGroup-sizing-lg_2">
+                                </div>
+
+                                <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                                    Por favor, ingresar correctamente sus datos.
+                                </div>
+
+                                <!-- btn -->
+
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <button type="submit" class="btn btn-success btn-lg text-center">Ingresar</button>
+                                </div>
+
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

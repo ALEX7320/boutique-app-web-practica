@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head th:insert="Fragmentos/header :: tag-header">
+
+
+<body class="color_fondo">
+
+
+    <!-- BARRA SUPERIOR -->
+    <nav th:insert="Fragmentos/barra-superior :: tag-barra-superior">
+    </nav>
+
+
+    <!-- Page content-->
+    <section class="py-5">
+        <div class="container px-5">
+            <!-- Contact form-->
+            <div class="rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+                    <h1><i class="fa-solid fa-lock texto_blanco" style="font-size:10rem;"></i></h1>
+
+                    <h1 class="fw-bolder texto_font_1 texto_blanco py-2">Error de acceso</h1>
+                    <P class="texto_blanco">Usted no cuenta con las credenciales de acceso para este modulo</P>
+    
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+
+                        <!--  EDITAR -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- VARIBALE GLOBAL -->
+
+    <!-- CRIPT -->
+    <footer th:insert="Fragmentos/js-footer :: tag-js-footer" style="display: none;">
+    </footer>
+
+
+
+
+</body>
+
+</html>
