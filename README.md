@@ -1,4 +1,4 @@
-# Protecto de Practica: Gestión de ventas para una boutique
+# Proyecto de Practica: Gestión administrativo para una boutique
 
 **Indice**
 
